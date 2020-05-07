@@ -27,6 +27,7 @@ Usage:
   gops <cmd> <pid|addr> ...
   gops <pid> # displays process info
   gops help  # displays this help message
+  gops env  # 打印查找目录脚步 export GOPS_CONFIG_DIR=xxxxx 
 
 Commands:
   stack      Prints the stack trace.
@@ -66,6 +67,15 @@ func main() {
 	if cmd == "tree" {
 		displayProcessTree()
 		return
+	}
+
+	if cmd == "env" {
+		if len(os.Args) < 3 {
+			fmt.Println("params error")
+			os.Exit(0)
+		}
+		fmt.Printf("export GOPS_CONFIG_DIR=%s\n",os.Args[2])
+		os.Exit(1)
 	}
 
 	fn, ok := cmds[cmd]

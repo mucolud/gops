@@ -89,11 +89,11 @@ func trace(addr net.TCPAddr, _ []string) error {
 	}
 	fmt.Printf("Trace dump saved to: %s\n", tmpfile.Name())
 	// If go tool chain not found, stopping here and keep trace file.
-	if _, err := exec.LookPath("go"); err != nil {
+	if _, err := exec.LookPath("./trace"); err != nil {
 		return nil
 	}
 	defer os.Remove(tmpfile.Name())
-	cmd := exec.Command("go", "tool", "trace", tmpfile.Name())
+	cmd := exec.Command( "./trace", tmpfile.Name())
 	cmd.Env = os.Environ()
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -120,7 +120,7 @@ func pprof(addr net.TCPAddr, p byte) error {
 		}
 		fmt.Printf("Profile dump saved to: %s\n", tmpDumpFile.Name())
 		// If go tool chain not found, stopping here and keep dump file.
-		if _, err := exec.LookPath("go"); err != nil {
+		if _, err := exec.LookPath("./pprof"); err != nil {
 			return nil
 		}
 		defer os.Remove(tmpDumpFile.Name())
@@ -144,7 +144,7 @@ func pprof(addr net.TCPAddr, p byte) error {
 		}
 	}
 	fmt.Printf("Binary file saved to: %s\n", tmpBinFile.Name())
-	cmd := exec.Command("go", "tool", "pprof", tmpBinFile.Name(), tmpDumpFile.Name())
+	cmd := exec.Command( "./pprof", tmpBinFile.Name(), tmpDumpFile.Name())
 	cmd.Env = os.Environ()
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
